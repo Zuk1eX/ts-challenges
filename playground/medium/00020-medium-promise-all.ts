@@ -22,8 +22,17 @@
 */
 
 /* _____________ Your Code Here _____________ */
-
-declare function PromiseAll(values: any): any
+// type Test<T extends any[]> =
+//   T extends [] ? Promise<T> :
+//   T extends [infer R, ...infer Rest] ?
+//   R extends PromiseLike<infer U> ?
+//   Promise<[U, ...Awaited<Test<Rest>>]>
+//   : Promise<[R, ...Awaited<Test<Rest>>]>
+//   : Promise<T>
+declare function PromiseAll<T extends any[]>(values: readonly [...T]):
+  Promise<{ [k in keyof T]:
+    T[k] extends PromiseLike<infer R> | infer R ? R : T[k]
+  }>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
