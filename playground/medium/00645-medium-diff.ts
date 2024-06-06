@@ -12,7 +12,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Diff<O, O1> = any
+type Diff<O, O1> =
+  { [k in keyof (O & O1) as
+    k extends keyof (O | O1) ? never : k
+    ]: (O & O1)[k] }
+// Omit<O & O1, keyof O & keyof O1>
+// Omit<Omit<O1, keyof O> & Omit<O, keyof O1>, never>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
