@@ -20,7 +20,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IsUnion<T> = any
+type IsUnion<T, U extends T = T> =
+  (T extends any ?
+    (U extends T ? false : true)
+    : never) extends false
+  ? false : true
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

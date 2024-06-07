@@ -23,7 +23,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type RemoveIndexSignature<T> = any
+type RemoveIndexSignature<T, P = PropertyKey> =
+  { [k in keyof T as
+    P extends k ? never :
+    k extends P ? k :
+    never]: T[k]
+  }
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

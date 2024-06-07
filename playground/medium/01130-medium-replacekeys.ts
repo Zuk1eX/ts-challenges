@@ -45,7 +45,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ReplaceKeys<U, T, Y> = any
+type ReplaceKeys<U extends object, T extends string, Y extends Record<keyof any, any>> =
+  // U extends any
+  // ? { [k in T | keyof U as k extends keyof U ? k : never]:
+  //   k extends keyof Y ? Y[k] :
+  //   k extends T ? never :
+  //   k extends keyof U ? U[k] :
+  //   never }
+  // : never
+  { [k in keyof U]: k extends T ? k extends keyof Y ? Y[k] : never : U[k] }
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
